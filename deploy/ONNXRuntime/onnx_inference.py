@@ -7,6 +7,7 @@ from loguru import logger
 
 import onnxruntime
 
+
 from yolox.data.data_augment import preproc as preprocess
 from yolox.utils import mkdir, multiclass_nms, demo_postprocess, vis
 from yolox.utils.visualize import plot_tracking
@@ -20,14 +21,14 @@ def make_parser():
         "-m",
         "--model",
         type=str,
-        default="../../bytetrack_s.onnx",
+        default="bytetrack_l.onnx",
         help="Input your onnx model.",
     )
     parser.add_argument(
         "-i",
         "--video_path",
         type=str,
-        default='../../videos/palace.mp4',
+        default='./videos/palace.mp4',
         help="Path to your input image.",
     )
     parser.add_argument(
@@ -54,7 +55,7 @@ def make_parser():
     parser.add_argument(
         "--input_shape",
         type=str,
-        default="608,1088",
+        default="800,1440",
         help="Specify an input shape for inference.",
     )
     parser.add_argument(
@@ -148,6 +149,7 @@ def imageflow_demo(predictor, args):
             ch = cv2.waitKey(1)
             if ch == 27 or ch == ord("q") or ch == ord("Q"):
                 break
+            print("hej2")
         else:
             break
         frame_id += 1

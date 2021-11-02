@@ -57,6 +57,7 @@ def main():
         args.experiment_name = exp.exp_name
 
     model = exp.get_model()
+    model = model.cuda()
     if args.ckpt is None:
         file_name = os.path.join(exp.output_dir, args.experiment_name)
         ckpt_file = os.path.join(file_name, "best_ckpt.pth.tar")
@@ -64,7 +65,7 @@ def main():
         ckpt_file = args.ckpt
 
     # load the model state dict
-    ckpt = torch.load(ckpt_file, map_location="cpu")
+    ckpt = torch.load(ckpt_file)#, map_location="cuda:0")
 
     model.eval()
     if "model" in ckpt:
@@ -74,7 +75,7 @@ def main():
     model.head.decode_in_inference = False
 
     logger.info("loading checkpoint done.")
-    dummy_input = torch.randn(1, 3, exp.test_size[0], exp.test_size[1])
+    dummy_input = torch.randn(1, 3, exp.test_size[0], exp.test_size[1]).cuda()
     torch.onnx._export(
         model,
         dummy_input,

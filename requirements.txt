@@ -13,6 +13,7 @@ tabulate
 tensorboard
 lap
 motmetrics
+pycocotools
 filterpy
 h5py
 
